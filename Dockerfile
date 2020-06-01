@@ -15,7 +15,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
     RUST_VERSION=1.43.1 \
-    RUSTFLAGS="-C target-feature=-crt-static"
+    RUSTFLAGS='--codegen target-feature=-crt-static'
 
 RUN set -eux; \
     url="https://static.rust-lang.org/rustup/archive/1.21.1/x86_64-unknown-linux-musl/rustup-init"; \
@@ -52,7 +52,7 @@ RUN mix do compile, release
 # prepare release image
 FROM alpine:${ALPINE_VERSION} AS app
 
-RUN apk add --no-cache openssl ncurses-libs
+RUN apk add --no-cache openssl ncurses-libs libgcc
 
 WORKDIR /app
 
@@ -60,8 +60,8 @@ RUN chown nobody:nobody /app
 
 USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/meeseeks_docker_example ./
+COPY --from=build --chown=nobody:nobody /app/_build ./
 
 ENV HOME=/app
 
-CMD ["bin/meeseeks_docker_example", "start"]
+CMD ["rel/bin/meeseeks_docker_example", "start"]
