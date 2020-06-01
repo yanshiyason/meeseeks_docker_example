@@ -1,21 +1,16 @@
 # MeeseeksDockerExample
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `meeseeks_docker_example` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:meeseeks_docker_example, "~> 0.1.0"}
-  ]
-end
+1. Build image
+```
+docker build . --tag meeseeks_example:0.1
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/meeseeks_docker_example](https://hexdocs.pm/meeseeks_docker_example).
+2. Start the iex shell
+```
+docker run -it --rm meeseeks_example:0.1 ./bin/meeseeks_docker_example start_iex
+```
 
+3. Test a meeseeks command
+```
+iex> Meeseeks.parse("<div></div>")
+```
